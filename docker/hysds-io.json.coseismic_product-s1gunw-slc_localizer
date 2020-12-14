@@ -1,5 +1,5 @@
 {
-  "label" : "Coseismic S1-GUNW - slc_localizer",
+  "label" : "Coseismic Product S1-GUNW - slc_localizer",
   "allowed_accounts": [ "ops" ],
   "enable_dedup": false,
   "params" : [
