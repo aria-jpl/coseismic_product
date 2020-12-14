@@ -1,2 +1,2 @@
 # coseismic_product
-HySDS pipeline for cosiesmic co-registered product
+HySDS pipeline for coseismic co-registered product
