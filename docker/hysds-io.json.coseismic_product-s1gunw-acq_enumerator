@@ -1,20 +1,20 @@
-{     
+{
   "submission_type": "iteration",
   "label": "Coseismic Product S1-GUNW - aoi_track_acquisition_enumerator",
   "allowed_accounts": [ "ops" ],
   "enable_dedup": false,
-  "params" : [ 
+  "params" : [
     {
       "name": "workflow",
       "from": "value",
       "value": "orbit_acquisition_enumerator_standard_product.sf.xml"
     },
-    { 
+    {
       "name": "dataset_version",
       "from": "value",
       "value": "v2.0.0"
     },
-    { 
+    {
       "name": "minMatch",
       "from": "submitter",
       "type": "number",
@@ -28,11 +28,11 @@
       "lambda": "lambda x: int(x)",
       "value": "5"
     },
-    { 
+    {
       "name": "acquisition_version",
       "from": "submitter",
       "type": "text",
-      "default": "v2.0" 
+      "default": "v2.0"
     },
     {
       "name": "track_numbers",
@@ -40,7 +40,7 @@
       "type": "text",
       "placeholder": "comma-separated track numbers. Example : '37, 123'",
       "optional": true
-    }, 
+    },
     {
       "name": "aoi_name",
       "from": "submitter",
