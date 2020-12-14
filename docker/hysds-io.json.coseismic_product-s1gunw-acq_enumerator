@@ -7,7 +7,7 @@
     {
       "name": "workflow",
       "from": "value",
-      "value": "orbit_acquisition_enumerator_standard_product.sf.xml"
+      "value": "orbit_acquisition_enumerator_coseismic_product.sf.xml"
     },
     {
       "name": "dataset_version",

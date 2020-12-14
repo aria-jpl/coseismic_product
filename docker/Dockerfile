@@ -1,7 +1,7 @@
 FROM hysds/isce2:v2.3.3-es1
 
 MAINTAINER mkarim "Mohammed.R.Karim@jpl.nasa.gov"
-LABEL description="standard_product"
+LABEL description="coseismic_product"
 
 ARG git_oauth_token
 ARG id
@@ -20,7 +20,7 @@ USER ops
 #COPY .netrc /home/ops/.netrc
 
 # copy packages
-COPY . /home/ops/verdi/ops/standard_product
+COPY . /home/ops/verdi/ops/coseismic_product
 
 RUN $HOME/verdi/bin/pip install shapely
 RUN $HOME/verdi/bin/pip install 'fiona==1.7.13'
@@ -38,9 +38,9 @@ RUN set -ex \
 
 
 RUN set -ex \
- && sudo chown -R ops:ops /home/ops/verdi/ops/standard_product \
- && mv /home/ops/verdi/ops/standard_product/multi_acquisition_localizer /home/ops/verdi/ops/ \
- && mv /home/ops/verdi/ops/standard_product/ariamh/ /home/ops/ 
+ && sudo chown -R ops:ops /home/ops/verdi/ops/coseismic_product \
+ && mv /home/ops/verdi/ops/coseismic_product/multi_acquisition_localizer /home/ops/verdi/ops/ \
+ && mv /home/ops/verdi/ops/coseismic_product/ariamh/ /home/ops/
 
 
 
