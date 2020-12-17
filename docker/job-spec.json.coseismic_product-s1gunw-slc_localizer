@@ -8,7 +8,7 @@
     "$HOME/verdi/etc/settings.conf": "/home/ops/verdi/ops/coseismic_product/settings.conf"
   },
   "recommended-queues" : [
-    "aria-coseismic_product-localizer","coseismic_product-s1gunw-slc_localizer"
+    "s1gunw_coseismic-slc_localizer"
   ],
   "disk_usage":"100GB",
   "soft_time_limit": 86400,
