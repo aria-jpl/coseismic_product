@@ -1,7 +1,4 @@
 # coseismic_product
-HySDS pipeline for coseismic co-registered product
-
-# Product Name
 > HySDS localizer, sling extractors / wrappers, and evaluator wrapper for coseismic co-registered product
 
 This repository contains code that will create a Program Executable (PGE) that allows a science data processing pipeline to download data products from Sentinel-1 spacecraft imaging repositories.
