@@ -771,16 +771,16 @@ def submit_sling_job(spyddder_sling_extract_version, multi_acquisition_localizer
     job_version = multi_acquisition_localizer_version
     logger.info("submit_sling_job : acq_list %s, \nspyddder_sling_extract_version : %s, \nmulti_acquisition_localizer_version: %s, \nesa_download_queue : %s, \nasf_ngap_download_queue: %s, \npriority : %s, \njob_type : %s, \njob_version : %s" %(acq_list, spyddder_sling_extract_version, multi_acquisition_localizer_version, esa_download_queue, asf_ngap_download_queue, priority, job_type, job_version))
 
-    print "#################### START DEBUGGING TEST 01.27.2021 (DELETE AFTER TEST) #######################"
-    print "acq_list is of type: (", type(acq_list), ") and value (", acq_list, ")"
-    print "spyddder_sling_extract_version is of type: (", type(spyddder_sling_extract_version), ") and value (", spyddder_sling_extract_version, ")"
-    print "multi_acquisition_localizer_version is of type: (", type(multi_acquisition_localizer_version), ") and value (", multi_acquisition_localizer_version, ")"
-    print "esa_download_queue is of type: (", type(esa_download_queue), ") and value (", esa_download_queue, ")"
-    print "asf_ngap_download_queue is of type: (", type(asf_ngap_download_queue), ") and value (", asf_ngap_download_queue, ")"
-    print "priority is of type: (", type(priority), ") and value (", priority, ")"
-    print "job_type is of type: (", type(job_type), ") and value (", job_type, ")"
-    print "job_version is of type: (", type(job_version), ") and value (", job_version, ")"
-    print "#################### END DEBUGGING TEST 01.27.2021 (DELETE AFTER TEST) #######################"
+    print("#################### START DEBUGGING TEST 01.27.2021 (DELETE AFTER TEST) #######################")
+    print("acq_list is of type: (", type(acq_list), ") and value (", acq_list, ")")
+    print("spyddder_sling_extract_version is of type: (", type(spyddder_sling_extract_version), ") and value (", spyddder_sling_extract_version, ")")
+    print("multi_acquisition_localizer_version is of type: (", type(multi_acquisition_localizer_version), ") and value (", multi_acquisition_localizer_version, ")")
+    print("esa_download_queue is of type: (", type(esa_download_queue), ") and value (", esa_download_queue, ")")
+    print("asf_ngap_download_queue is of type: (", type(asf_ngap_download_queue), ") and value (", asf_ngap_download_queue, ")")
+    print("priority is of type: (", type(priority), ") and value (", priority, ")")
+    print("job_type is of type: (", type(job_type), ") and value (", job_type, ")")
+    print("job_version is of type: (", type(job_version), ") and value (", job_version, ")")
+    print("#################### END DEBUGGING TEST 01.27.2021 (DELETE AFTER TEST) #######################")
 
     try:
         return acquisition_localizer_multi.sling(acq_list, spyddder_sling_extract_version, multi_acquisition_localizer_version, esa_download_queue, asf_ngap_download_queue, priority, job_type, job_version)
