@@ -10,6 +10,8 @@ import logging
 import traceback
 import shutil
 import backoff
+import random
+import string
 
 from hysds.celery import app
 from hysds.dataset_ingest import ingest
@@ -232,15 +234,23 @@ def main():
             acq_info[acq] = get_acq_object(acq, "slave")
         if all_slcs_exist(list(acq_info.keys()), acq_version, slc_version):
             # START DEBUGGING TEST 01.28.2021 (DELETE TOP VERSION AND REPLACE WITH BOTTOM COMMENTED VERSION) #######################")
-            prod_dir = publish_data(acq_info, '', acqlist['metadata']['job_priority'],
+            # Default values set:
+            #   project - ''
+            #   orbitNumber - []
+            #   bbox - None
+            #   full_id_hash - don't know how to generate this, setting as '0000' for purely a test
+            #   master_orbit_file - ''
+            #   slave_orbit_file - ''
+            #   NOTE: we should have a better way of using default values without referencing 'metadata' over and over
+            prod_dir = publish_data(acq_info, acqlist.get('metadata').get('job_priority', ''), acqlist['metadata']['job_priority'],
                                     acqlist['metadata']['dem_type'], acqlist['metadata']['track_number'], acqlist['metadata']['tags'],
                                     acqlist['metadata']['starttime'], acqlist['metadata']['endtime'],
                                     acqlist['metadata']['master_scenes'], acqlist['metadata']['slave_scenes'],
                                     acqlist['metadata']['master_acquisitions'], acqlist['metadata']['slave_acquisitions'],
-                                    [], acqlist['metadata']['direction'],
+                                    acqlist.get('metadata').get('orbitNumber', []), acqlist['metadata']['direction'],
                                     acqlist['metadata']['platform'], acqlist['metadata']['union_geojson'],
-                                    None, '',
-                                    '', '')
+                                    acqlist.get('metadata').get('bbox', None), acqlist.get('metadata').get('full_id_hash', '0000'),
+                                    acqlist.get('metadata').get('master_orbit_file', ''), acqlist.get('metadata').get('slave_orbit_file', ''))
             '''
             prod_dir = publish_data(acq_info, acqlist['metadata']['project'], acqlist['metadata']['job_priority'],
                         acqlist['metadata']['dem_type'], acqlist['metadata']['track_number'], acqlist['metadata']['tags'],
