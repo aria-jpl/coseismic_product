@@ -231,15 +231,29 @@ def main():
         for acq in acqlist['metadata']['slave_acquisitions']:
             acq_info[acq] = get_acq_object(acq, "slave")
         if all_slcs_exist(list(acq_info.keys()), acq_version, slc_version):
-            prod_dir = publish_data(acq_info, acqlist['metadata']['project'], acqlist['metadata']['job_priority'],
+            # START DEBUGGING TEST 01.28.2021 (DELETE TOP VERSION AND REPLACE WITH BOTTOM COMMENTED VERSION) #######################")
+            prod_dir = publish_data(acq_info, '', acqlist['metadata']['job_priority'],
                                     acqlist['metadata']['dem_type'], acqlist['metadata']['track_number'], acqlist['metadata']['tags'],
                                     acqlist['metadata']['starttime'], acqlist['metadata']['endtime'],
                                     acqlist['metadata']['master_scenes'], acqlist['metadata']['slave_scenes'],
                                     acqlist['metadata']['master_acquisitions'], acqlist['metadata']['slave_acquisitions'],
-                                    acqlist['metadata']['orbitNumber'], acqlist['metadata']['direction'],
+                                    [], acqlist['metadata']['direction'],
                                     acqlist['metadata']['platform'], acqlist['metadata']['union_geojson'],
-                                    acqlist['metadata']['bbox'], acqlist['metadata']['full_id_hash'],
-                                    acqlist['metadata']['master_orbit_file'], acqlist['metadata']['slave_orbit_file'])
+                                    None, '',
+                                    '', '')
+            '''
+            prod_dir = publish_data(acq_info, acqlist['metadata']['project'], acqlist['metadata']['job_priority'],
+                        acqlist['metadata']['dem_type'], acqlist['metadata']['track_number'], acqlist['metadata']['tags'],
+                        acqlist['metadata']['starttime'], acqlist['metadata']['endtime'],
+                        acqlist['metadata']['master_scenes'], acqlist['metadata']['slave_scenes'],
+                        acqlist['metadata']['master_acquisitions'], acqlist['metadata']['slave_acquisitions'],
+                        acqlist['metadata']['orbitNumber'], acqlist['metadata']['direction'],
+                        acqlist['metadata']['platform'], acqlist['metadata']['union_geojson'],
+                        acqlist['metadata']['bbox'], acqlist['metadata']['full_id_hash'],
+                        acqlist['metadata']['master_orbit_file'], acqlist['metadata']['slave_orbit_file'])
+            '''
+            # START DEBUGGING TEST 01.28.2021 (DELETE AFTER TEST) #######################")
+
             logger.info(
                 "Created ifg-cfg {} for acq-list {}.".format(prod_dir, acqlist['id']))
             if ifgcfg_exists(prod_dir, ifgcfg_version):
