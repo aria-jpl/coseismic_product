@@ -608,18 +608,18 @@ def get_orbit_from_metadata(mds):
 
 
 
-def publish_localized_info( acq_info, project, job_priority, dem_type, track, aoi_id, starttime, endtime, master_scene, slave_scene, orbitNumber, direction, platform, union_geojson, bbox, wuid=None, job_num=None):
+def publish_localized_info( acq_info, project, job_priority, dem_type, track, tags, starttime, endtime, master_scene, slave_scene, orbitNumber, direction, platform, union_geojson, bbox, wuid=None, job_num=None):
     for i in range(len(project)):
-        publish_data( acq_info[i], project[i], job_priority[i], dem_type[i], track[i], aoi_id[i],  starttime[i], endtime[i], master_scene[i], slave_scene[i], orbitNumber[i], direction[i], platform[i], union_geojson[i], bbox[i])
+        publish_data( acq_info[i], project[i], job_priority[i], dem_type[i], track[i], tags[i],  starttime[i], endtime[i], master_scene[i], slave_scene[i], orbitNumber[i], direction[i], platform[i], union_geojson[i], bbox[i])
 
-def publish_data( acq_info, project, job_priority, dem_type, track, aoi_id, starttime, endtime, master_scene, slave_scene, master_acqs, slave_acqs, orbitNumber, direction, platform, union_geojson, bbox, ifg_hash, in_master_orbit_file, in_slave_orbit_file, wuid=None, job_num=None):
+def publish_data( acq_info, project, job_priority, dem_type, track, tags, starttime, endtime, master_scene, slave_scene, master_acqs, slave_acqs, orbitNumber, direction, platform, union_geojson, bbox, ifg_hash, in_master_orbit_file, in_slave_orbit_file, wuid=None, job_num=None):
     """Map function for create interferogram job json creation."""
 
     logger.info("\n\n\n PUBLISH IFG JOB!!!")
     logger.info("project : %s " %project)
     logger.info("dem type : %s " %dem_type)
     logger.info("track : %s" %track)
-    logger.info("aoi_id : %s" %aoi_id)
+    logger.info("tags : %s" %tags)
     logger.info("starttime, endtime, : %s : %s " %(starttime, endtime))
     logger.info("master_scene, slave_scene : %s, %s" %(master_scene, slave_scene))
     logger.info("union_geojson : %s, bbox : %s " %( union_geojson, bbox))
@@ -750,6 +750,7 @@ def publish_data( acq_info, project, job_priority, dem_type, track, aoi_id, star
     md["slave_orbit_file"] = os.path.basename(slave_orbit_url)
     md["full_id_hash"] = ifg_hash
     md["id_hash"] = ifg_hash[0:4]
+    md["tags"] = tags
 
     if bbox:
         md['bbox'] = bbox
@@ -764,14 +765,11 @@ def publish_data( acq_info, project, job_priority, dem_type, track, aoi_id, star
 
 
 def submit_sling_job(spyddder_sling_extract_version, multi_acquisition_localizer_version, acq_list, priority):
-    esa_download_queue = "s1gunw_coseismic-sling-extract-scihub"
-    asf_ngap_download_queue = "s1gunw_coseismic-sling-extract-asf"
+    esa_download_queue = "factotum-job_worker-apihub_throttled"
+    asf_ngap_download_queue = "factotum-job_worker-asf_throttled"
     job_type = "job-acquisition_localizer_multi:{}".format(multi_acquisition_localizer_version)
     job_version = multi_acquisition_localizer_version
     logger.info("submit_sling_job : acq_list %s, \nspyddder_sling_extract_version : %s, \nmulti_acquisition_localizer_version: %s, \nesa_download_queue : %s, \nasf_ngap_download_queue: %s, \npriority : %s, \njob_type : %s, \njob_version : %s" %(acq_list, spyddder_sling_extract_version, multi_acquisition_localizer_version, esa_download_queue, asf_ngap_download_queue, priority, job_type, job_version))
-
-
-
 
     try:
         return acquisition_localizer_multi.sling(acq_list, spyddder_sling_extract_version, multi_acquisition_localizer_version, esa_download_queue, asf_ngap_download_queue, priority, job_type, job_version)

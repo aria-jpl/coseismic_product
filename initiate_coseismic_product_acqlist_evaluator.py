@@ -10,6 +10,8 @@ import logging
 import traceback
 import shutil
 import backoff
+import random
+import string
 
 from hysds.celery import app
 from hysds.dataset_ingest import ingest
@@ -175,7 +177,7 @@ def get_acqlists_by_acqid(acq_id, acqlist_version):
             }
         }
     }
-    es_index = "grq_{}_s1-gunw-acq-list".format(acqlist_version)
+    es_index = "grq_{}_s1-coseismic-gunw-acq-list-event-iter".format(acqlist_version)
     result = query_es(query, es_index)
 
     if len(result) == 0:
@@ -231,15 +233,16 @@ def main():
         for acq in acqlist['metadata']['slave_acquisitions']:
             acq_info[acq] = get_acq_object(acq, "slave")
         if all_slcs_exist(list(acq_info.keys()), acq_version, slc_version):
-            prod_dir = publish_data(acq_info, acqlist['metadata']['project'], acqlist['metadata']['job_priority'],
+            prod_dir = publish_data(acq_info, acqlist.get('metadata').get('job_priority', ''), acqlist['metadata']['job_priority'],
                                     acqlist['metadata']['dem_type'], acqlist['metadata']['track_number'], acqlist['metadata']['tags'],
                                     acqlist['metadata']['starttime'], acqlist['metadata']['endtime'],
                                     acqlist['metadata']['master_scenes'], acqlist['metadata']['slave_scenes'],
                                     acqlist['metadata']['master_acquisitions'], acqlist['metadata']['slave_acquisitions'],
-                                    acqlist['metadata']['orbitNumber'], acqlist['metadata']['direction'],
+                                    acqlist.get('metadata').get('orbitNumber', []), acqlist['metadata']['direction'],
                                     acqlist['metadata']['platform'], acqlist['metadata']['union_geojson'],
-                                    acqlist['metadata']['bbox'], acqlist['metadata']['full_id_hash'],
-                                    acqlist['metadata']['master_orbit_file'], acqlist['metadata']['slave_orbit_file'])
+                                    acqlist.get('metadata').get('bbox', None), acqlist.get('metadata').get('full_id_hash', '0000'),
+                                    acqlist.get('metadata').get('master_orbit_file', ''), acqlist.get('metadata').get('slave_orbit_file', ''))
+
             logger.info(
                 "Created ifg-cfg {} for acq-list {}.".format(prod_dir, acqlist['id']))
             if ifgcfg_exists(prod_dir, ifgcfg_version):
