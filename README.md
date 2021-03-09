@@ -81,7 +81,7 @@ Within the ARIA production environment, two PGEs within this repo are currently 
 
 ## Release History
 
-N/A
+`v1.0.0` - https://github.com/aria-jpl/coseismic_product/releases/tag/v1.0.0 
 
 ## Contributing
 
