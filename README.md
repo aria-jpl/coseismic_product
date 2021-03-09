@@ -1,55 +1,59 @@
 # coseismic_product
 > HySDS localizer, sling extractors / wrappers, and evaluator wrapper for coseismic co-registered product
 
-This repository contains code that will create a Program Executable (PGE) that allows a science data processing pipeline to download data products from Sentinel-1 spacecraft imaging repositories.
+This repository contains code that will create a Program Executable (PGE) that allows a science data processing pipeline to download data products from Sentinel-1 spacecraft imaging repositories per a given acquisition list, and will generate a resulting TopsApp
+configuration metadata product which will be used to create interferograms.
 
-![](header.png)
+## Build Instructions
 
-## Installation
+Built using the ARIA HySDS Jenkins Continuous Integration (CI) pipeline.
 
-OS X & Linux:
+More information about this process can be found [here](https://hysds-core.atlassian.net/wiki/spaces/HYS/pages/455114757/Deploy+PGE+s+onto+Cluster)
 
-```sh
-TBD
+Within the ARIA production environment, this PGE is built using the ARIA Jenkins server. You'll want to log onto the ARIA Mozart server and add / watch this repo first, then open up the Jenkins server in a browser and navigate to the project for this repo (which should show up after adding / watching this repo via the `sds ci ...` commands documented in the above link)
+
+## Run Instructions
+
+You may run your customized PGE via two methods that are documented below:
+- An [on-demand (one-time) job](https://hysds-core.atlassian.net/wiki/spaces/HYS/pages/378601499/Submit+an+On-Demand+Job+in+Facet+Search)
+- [Create a trigger rule](https://hysds-core.atlassian.net/wiki/spaces/HYS/pages/442728660/Create+Edit+Delete+Trigger+Rules) to invoke your PGE based on conditions
+
+Within the ARIA production environment, this PGE is currently run via a trigger rule with the following characteristics:
+- Name: `coseismic-localizer`
+- Condition:
 ```
-
-## Usage example
-
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
-
-_For more examples and usage, please refer to the [Wiki][wiki]._
-
-## Development setup
-
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-npm test
+{
+  "bool": {
+    "must": [
+      {
+        "term": {
+          "dataset.raw": "S1-COSEISMIC-GUNW-acq-list-event-iter"
+        }
+      }
+    ]
+  }
+}
+```
+- Action: `hysds-io-coseismic_product-s1gunw-slc_localizer:issue-8`
+- Queue: `factotum-job_worker-coseismic-localizer`
+- Keyword Args:
+```
+{
+  "spyddder_sling_extract_version": "develop"
+}
 ```
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
-
+N/A
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
+1. Create an GitHub issue ticket describing what changes you need (e.g. issue-1)
+2. Fork this repo (<https://github.com/aria-jpl/coseismic_product/fork>)
+3. Make your modifications in your own fork
+4. Make a pull-request in this repo with the code in your fork and tag the repo owner / largest contributor as a reviewer
 
-<!-- Markdown link & img dfn's -->
+## Support
+
+Contact `@riverma` for support.
