@@ -18,8 +18,11 @@ You may run your customized PGE via two methods that are documented below:
 - An [on-demand (one-time) job](https://hysds-core.atlassian.net/wiki/spaces/HYS/pages/378601499/Submit+an+On-Demand+Job+in+Facet+Search)
 - [Create a trigger rule](https://hysds-core.atlassian.net/wiki/spaces/HYS/pages/442728660/Create+Edit+Delete+Trigger+Rules) to invoke your PGE based on conditions
 
-Within the ARIA production environment, this PGE is currently run via a trigger rule with the following characteristics:
-- Name: `coseismic-localizer`
+Within the ARIA production environment, two PGEs within this repo are currently run via trigger rules with the following characteristics:
+
+### Localizer PGE
+
+- Name: `coseismic-product-localizer`
 - Condition:
 ```
 {
@@ -34,12 +37,45 @@ Within the ARIA production environment, this PGE is currently run via a trigger 
   }
 }
 ```
-- Action: `hysds-io-coseismic_product-s1gunw-slc_localizer:issue-8`
+- Action: `hysds-io-coseismic_product-s1gunw-slc_localizer:main`
 - Queue: `factotum-job_worker-coseismic-localizer`
 - Keyword Args:
 ```
 {
   "spyddder_sling_extract_version": "develop"
+}
+```
+
+### Evaluator PGE
+
+- Name: `coseismic-product-evaluator`
+- Condition:
+```
+{
+  "bool": {
+    "must": [
+      {
+        "term": {
+          "dataset_type.raw": "slc"
+        }
+      },
+      {
+        "term": {
+          "dataset.raw": "S1-IW_SLC"
+        }
+      }
+    ]
+  }
+}
+```
+- Action: `hysds-io-coseismic_product-s1gunw-acqlist_evaluator_ifgcfg:main`
+- Queue: `factotum-job_worker-coseismic-evaluator`
+- Keyword Args:
+```
+{
+  "acqlist_version": "v0.0",
+  "acquisition_version": "v2.0",
+  "slc_version": "v1.1"
 }
 ```
 
